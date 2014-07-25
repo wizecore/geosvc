@@ -40,9 +40,9 @@ echo -e "use caches\ndb.dropDatabase()" | mongo --quiet
 rm -Rf $DIR/dump
 
 # Drop other databases
-DBS=`echo "show dbs" | mongo --quiet | grep kladr2`
+DBS=`echo "show dbs" | mongo --quiet | sed -re "s/\t/ /g" | cut -d" " -f1 | grep kladr`
 for N in $DBS; do
-    if [ "$N" != "kladr$STAMP" ]; then
+    if [ "$N" != "kladr$STAMP" -a "$N" != "kladr-api" ]; then
 	echo "Dropping $N
 	echo -e "use $N\ndb.dropDatabase()" | mongo --quiet
     fi
