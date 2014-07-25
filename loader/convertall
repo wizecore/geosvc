@@ -1,0 +1,9 @@
+#!/bin/sh
+for N in `ls -1 *.DBF`; do
+	echo $N
+	NN=`basename $N .DBF`
+	# This script is from http://gis-lab.info/qa/dbf2csv.html
+	./dbf2csv.py --file=$N --out=$NN.cp866 --delim=";"
+	iconv -c -s -f cp866 -t utf8 $NN.cp866 > $NN.csv
+	rm $NN.cp866
+done

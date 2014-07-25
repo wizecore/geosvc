@@ -1,0 +1,5 @@
+kladrapi
+loader/*.dbf
+loader/*.DBF
+loader/*.csv
+loader/*.7z

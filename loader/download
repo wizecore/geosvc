@@ -1,0 +1,20 @@
+#!/bin/sh
+# FIAS @ Nalog
+TODATE=`date +%Y%m%d`
+BASEURL=http://fias.nalog.ru/fias/Public/Downloads
+URL=$BASEURL/$TODATE/BASE.7Z
+FILE=Base.7z
+rm $FILE
+echo Downloading $URL
+wget -q -O $FILE $URL
+7z x -y $FILE
+ERROR=$?
+while [ $ERROR != 0 ]; do
+    TODATE=`expr $TODATE - 1`
+    URL=$BASEURL/$TODATE/BASE.7Z
+    rm $FILE
+    echo Invalid file, trying $URL
+    wget -q -O $FILE $URL
+    7z x -y $FILE
+    ERROR=$?
+done
