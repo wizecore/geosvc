@@ -36,6 +36,7 @@ rm -Rf $DIR/dump
 mongodumb -db kladr --out $DIR/dump
 mongorestore -db kladr$STAMP $DIR/dump/kladr
 sed -re "s/#BASE#/$STAMP/" core_config.ini > $DIR/kladrapi/apps/core/config/config.ini
+echo -e "use caches\ndb.dropDatabase()" | mongo --quiet
 rm -Rf $DIR/dump
 
 # Drop other databases
