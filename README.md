@@ -18,9 +18,9 @@ Prepequisites
 
 Recommended
 ---
-- memcache-stats -> into /var/www/geosvc
-- linux-dash -> into /var/www/geosvc
-- rockmongo -> into /var/www/geosvc
+- memcache-stats -> git clone https://github.com/huksley/memcached-stats into  into /var/www/geosvc
+- linux-dash -> git clonehttps://github.com/afaqurk/linux-dash into /var/www/geosvc
+- rockmongo -> http://rockmongo.com/downloads into /var/www/geosvc
 
 Source
 ---
