@@ -3,6 +3,17 @@ geosvc
 
 Geo services based on garakh/kladrapi. Complete environment for private hosting.
 
+Hardware/OS requirements
+===============
+
+Current DB size is 15 GiB (KladrSize).
+You must create VM with atleast KladrSize * 3 + 10GiB = 55 GiB
+To clarify:
+2 vCPU
+2 GB RAM
+55 GiB HDD
+OS: Ubuntu 14.04 x64 (tested) or similar.
+
 Installation
 ============
 
