@@ -1,12 +1,16 @@
 #!/bin/sh
 DIR=/var/www/geosvc
+if [ -f $DIR/.updating ]; then
+    echo Update already in progress!
+fi
+touch $DIR/.updating
 
 if [ ! -f $DIR/kladrapi/apps/core/config/config.ini ]; then
     Installing default config
     chmod a+rw  $DIR/kladrapi/cache
 fi
 
-if [ ! -f $DIR/kladrapi/files_local ]; then
+if [ ! -d $DIR/kladrapi/files_local ]; then
     ln -s $DIR/loader $DIR/kladrapi/files_local
 fi
 
@@ -21,9 +25,22 @@ php index.php
 php address_collect.php
 php XmlGenerator.php
 
-# Rename DB and update config
-sed -re "s/#BASE#//" core_config.ini  $DIR/kladrapi/apps/core/config/config.ini
+# Copy db
 STAMP=`date +%Y%m%d%H%M`
+rm -Rf $DIR/dump
+mongodumb -db kladr --out $DIR/dump
+mongorestore -db kladr$STAMP $DIR/dump/kladr
+sed -re "s/#BASE#/$STAMP/" core_config.ini  $DIR/kladrapi/apps/core/config/config.ini
+rm -Rf $DIR/dump
 
-# Clean cache
-echo 
+# Drop other databases
+DBS=`echo "show dbs" | mongo --quiet | grep kladr2`
+for N in $DBS; do
+    if [ "$N" != "kladr$STAMP" ]; then
+	echo "Dropping $N
+	echo -e "use $N\ndb.dropDatabase()" | mongo --quiet
+    fi
+done
+
+rm $DIR/.updating
+
