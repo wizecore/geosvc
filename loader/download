@@ -2,6 +2,10 @@
 # FIAS @ Nalog
 TODATE=`date +%Y%m%d`
 BASEURL=http://fias.nalog.ru/fias/Public/Downloads
+# Allow to specify custom url via env property
+if [ "$FIAS_BASEURL" != "" ]; then
+    BASEURL=$FIAS_BASEURL
+fi
 URL=$BASEURL/$TODATE/BASE.7Z
 FILE=Base.7z
 rm $FILE

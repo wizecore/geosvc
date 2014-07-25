@@ -3,7 +3,9 @@ loader/*.dbf
 loader/*.DBF
 loader/*.csv
 loader/*.7z
+loader/*.cp866
 linux-dash
 memcached-stats
 rockmongo
+dump
 

@@ -48,3 +48,7 @@ Source
 6. Run first time manually
 
   ./update.sh
+
+7. Add to cron for daily update
+
+  echo "00 01 * * * /var/www/geosvc/update.sh" | crontab -e -
