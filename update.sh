@@ -5,36 +5,41 @@ if [ -f $DIR/.updating ]; then
 fi
 touch $DIR/.updating
 
+# Copy default core config
 if [ ! -f $DIR/kladrapi/apps/core/config/config.ini ]; then
     Installing default config
     sed -re "s/#BASE#//" core_config.ini > $DIR/kladrapi/apps/core/config/config.ini
     chmod a+rw  $DIR/kladrapi/cache
 fi
 
+# Copy default frontend config
 if [ ! -f $DIR/kladrapi/apps/frontend/config/config.ini ]; then
     cat frontend_config.ini > $DIR/kladrapi/apps/frontend/config/config.ini
 fi
 
+# Link dir with files
 if [ ! -d $DIR/kladrapi/files_local ]; then
     ln -s $DIR/loader $DIR/kladrapi/files_local
 fi
 
-# Makes kladr csv files
+# Make kladr csv files
 cd $DIR/loader
 ./download
 ./convertall
 
-# Loades in kladr db
+# Load CSV in kladr db
 cd ../kladrapi/loader/
 php index.php
 php address_collect.php
 php XmlGenerator.php
 
-# Copy db
+# Copy db to timestamped DB
 rm -Rf $DIR/dump
 mongodump -db kladr --out $DIR/dump
 STAMP=`date +%Y%m%d%H%M`
 mongorestore -db kladr$STAMP $DIR/dump/kladr
+
+# Point core to timestamped DB
 sed -re "s/#BASE#/$STAMP/" core_config.ini > $DIR/kladrapi/apps/core/config/config.ini
 echo -e "use caches\ndb.dropDatabase()" | mongo --quiet
 rm -Rf $DIR/dump
