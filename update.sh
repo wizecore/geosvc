@@ -23,6 +23,7 @@ if [ ! -d $DIR/kladrapi/files_local ]; then
 fi
 
 # Make kladr csv files
+
 cd $DIR/loader
 ./download
 ./convertall
@@ -36,8 +37,17 @@ php XmlGenerator.php
 # Copy db to timestamped DB
 rm -Rf $DIR/dump
 mongodump -db kladr --out $DIR/dump
+if [ "$?" != "0" ]; then
+    echo "ERROR: mongodb dump kladr failed"
+    exit 1
+fi
+
 STAMP=`date +%Y%m%d%H%M`
 mongorestore -db kladr$STAMP $DIR/dump/kladr
+if [ "$?" != "0" ]; then
+    echo "ERROR: mongodb restore kladr -> kladr$STAMP failed"
+    exit 2
+fi
 
 # Point core to timestamped DB
 sed -re "s/#BASE#/$STAMP/" core_config.ini > $DIR/kladrapi/apps/core/config/config.ini
@@ -48,10 +58,9 @@ rm -Rf $DIR/dump
 DBS=`echo "show dbs" | mongo --quiet | sed -re "s/\t/ /g" | cut -d" " -f1 | grep kladr`
 for N in $DBS; do
     if [ "$N" != "kladr$STAMP" -a "$N" != "kladr-api" ]; then
-	echo "Dropping $N
+	echo "Dropping $N"
 	echo -e "use $N\ndb.dropDatabase()" | mongo --quiet
     fi
 done
 
 rm $DIR/.updating
-
