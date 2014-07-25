@@ -10,6 +10,7 @@ Prepequisites
 ---
 
 - Apache2, php5, php5-mongo
+- Configure php5 settings in (/etc/php5/apache/php.ini): short_open_tag = On, mbstring.internal_encoding = UTF-8
 - Mongodb (10gen)
 - Memcached
 - Sphinxsearch - Download dpkg and install
