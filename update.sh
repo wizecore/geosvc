@@ -7,7 +7,12 @@ touch $DIR/.updating
 
 if [ ! -f $DIR/kladrapi/apps/core/config/config.ini ]; then
     Installing default config
+    sed -re "s/#BASE#//" core_config.ini > $DIR/kladrapi/apps/core/config/config.ini
     chmod a+rw  $DIR/kladrapi/cache
+fi
+
+if [ ! -f $DIR/kladrapi/apps/frontend/config/config.ini ]; then
+    cat frontend_config.ini > $DIR/kladrapi/apps/frontend/config/config.ini
 fi
 
 if [ ! -d $DIR/kladrapi/files_local ]; then
@@ -30,7 +35,7 @@ STAMP=`date +%Y%m%d%H%M`
 rm -Rf $DIR/dump
 mongodumb -db kladr --out $DIR/dump
 mongorestore -db kladr$STAMP $DIR/dump/kladr
-sed -re "s/#BASE#/$STAMP/" core_config.ini  $DIR/kladrapi/apps/core/config/config.ini
+sed -re "s/#BASE#/$STAMP/" core_config.ini > $DIR/kladrapi/apps/core/config/config.ini
 rm -Rf $DIR/dump
 
 # Drop other databases

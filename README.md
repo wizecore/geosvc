@@ -19,7 +19,7 @@ Prepequisites
 Recommended
 ---
 - memcache-stats -> git clone https://github.com/huksley/memcached-stats into  into /var/www/geosvc
-- linux-dash -> git clonehttps://github.com/afaqurk/linux-dash into /var/www/geosvc
+- linux-dash -> git clone https://github.com/afaqurk/linux-dash into /var/www/geosvc
 - rockmongo -> http://rockmongo.com/downloads into /var/www/geosvc
 
 Source
@@ -27,11 +27,11 @@ Source
 
 1. Checkout this project
 
-  git checkout in /var/www http://github.com/wizecore/geosvc
+  git clone in /var/www http://github.com/wizecore/geosvc
 
 2. Checkout kladrapi inside this project
 
-  git checkout in /var/www/geosvc http://github.com/wizecore/kladrapi (or origin http://github.com/garakh/kladrapi)
+  git clone in /var/www/geosvc http://github.com/wizecore/kladrapi (or origin http://github.com/garakh/kladrapi)
 
 3. Enable kladrapi site
 
@@ -41,7 +41,7 @@ Source
 
   sudo ln -s /var/www/geosvc/phalcon.ini /etc/php5/apache2/conf.d/30-phalcon.in
 
-5. Run ONCE
+5. Run ONCE to create examples user
 
   ./initmongo.sh
 
