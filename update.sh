@@ -31,9 +31,9 @@ php address_collect.php
 php XmlGenerator.php
 
 # Copy db
-STAMP=`date +%Y%m%d%H%M`
 rm -Rf $DIR/dump
-mongodumb -db kladr --out $DIR/dump
+mongodump -db kladr --out $DIR/dump
+STAMP=`date +%Y%m%d%H%M`
 mongorestore -db kladr$STAMP $DIR/dump/kladr
 sed -re "s/#BASE#/$STAMP/" core_config.ini > $DIR/kladrapi/apps/core/config/config.ini
 echo -e "use caches\ndb.dropDatabase()" | mongo --quiet
