@@ -8,7 +8,7 @@ Hardware/OS requirements
 
 Current DB size is 15 GiB (KladrSize).
 
-You must create VM with atleast KladrSize * 3 + 10GiB = 55 GiB
+You must create VM with HDD space at least KladrSize * 3 + 10GiB = 55 GiB
 
 To clarify:
   - 2 vCPU
