@@ -8,4 +8,5 @@ linux-dash
 memcached-stats
 rockmongo
 dump
-
+.updating
+update.log

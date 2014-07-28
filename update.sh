@@ -1,7 +1,13 @@
-#!/bin/sh
+#!/bin/bash
+
+if [ -f /home/$USER/.profile ]; then
+    source /home/$USER/.profile
+fi
+
 DIR=/var/www/geosvc
 if [ -f $DIR/.updating ]; then
     echo Update already in progress!
+    exit 1
 fi
 touch $DIR/.updating
 
@@ -50,7 +56,7 @@ if [ "$?" != "0" ]; then
 fi
 
 # Point core to timestamped DB
-sed -re "s/#BASE#/$STAMP/" core_config.ini > $DIR/kladrapi/apps/core/config/config.ini
+sed -re "s/#BASE#/$STAMP/" $DIR/core_config.ini > $DIR/kladrapi/apps/core/config/config.ini
 echo -e "use caches\ndb.dropDatabase()" | mongo --quiet
 rm -Rf $DIR/dump
 
