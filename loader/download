@@ -1,5 +1,7 @@
 #!/bin/sh
 # FIAS @ Nalog
+NOW=`date +%F`
+DEC=1
 TODATE=`date +%Y%m%d`
 BASEURL=http://fias.nalog.ru/fias/Public/Downloads
 # Allow to specify custom url via env property
@@ -14,11 +16,12 @@ wget -q -O $FILE $URL
 7z x -y $FILE
 ERROR=$?
 while [ $ERROR != 0 ]; do
-    TODATE=`expr $TODATE - 1`
+    TODATE=`date --date "$NOW - $DEC day" +%Y%m%d`
     URL=$BASEURL/$TODATE/BASE.7Z
     rm $FILE
     echo Invalid file, trying $URL
     wget -q -O $FILE $URL
     7z x -y $FILE
     ERROR=$?
+    DEC=`expr $DEC + 1`
 done
