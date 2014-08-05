@@ -48,6 +48,9 @@ if [ "$?" != "0" ]; then
     exit 1
 fi
 
+# Drop kladr to conserve space
+echo -e "use kladr\ndb.dropDatabase()" | mongo --quiet
+
 STAMP=`date +%Y%m%d%H%M`
 mongorestore -db kladr$STAMP $DIR/dump/kladr
 if [ "$?" != "0" ]; then
