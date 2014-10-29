@@ -12,16 +12,20 @@ URL=$BASEURL/$TODATE/BASE.7Z
 FILE=Base.7z
 rm $FILE
 echo Downloading $URL
-wget -q -O $FILE $URL
+wget -q -t 5 -T 10 -O $FILE $URL
 7z x -y $FILE
 ERROR=$?
 while [ $ERROR != 0 ]; do
     TODATE=`date --date "$NOW - $DEC day" +%Y%m%d`
+    DEC=`expr $DEC + 1`
+    if [ "$DEC" = "10" ]; then
+	echo "ERROR: Unable to download after $DEC attempts"
+	exit 2
+    fi
     URL=$BASEURL/$TODATE/BASE.7Z
     rm $FILE
     echo Invalid file, trying $URL
-    wget -q -O $FILE $URL
+    wget -v -t 5 -T 10 -O $FILE $URL
     7z x -y $FILE
     ERROR=$?
-    DEC=`expr $DEC + 1`
 done
