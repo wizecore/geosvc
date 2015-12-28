@@ -13,7 +13,7 @@ FILE=Base.7z
 rm $FILE
 echo Downloading $URL
 wget -q -t 5 -T 10 -O $FILE $URL
-7z x -y $FILE
+7z e -y $FILE
 ERROR=$?
 while [ $ERROR != 0 ]; do
     TODATE=`date --date "$NOW - $DEC day" +%Y%m%d`
@@ -26,6 +26,6 @@ while [ $ERROR != 0 ]; do
     rm $FILE
     echo Invalid file, trying $URL
     wget -v -t 5 -T 10 -O $FILE $URL
-    7z x -y $FILE
+    7z e -y $FILE
     ERROR=$?
 done
